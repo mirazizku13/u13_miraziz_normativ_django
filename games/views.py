@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Game
@@ -6,7 +7,14 @@ from .forms import GameModelForm
 
 def game_list(request):
     games = Game.objects.all()
-    return render(request, 'games/game_list.html', {'games': games})
+    search = request.GET.get('search','')
+    page = request.GET.get('page')
+    if search:
+        games = games.filter(title__icontains=search)
+
+    paginator = Paginator(games, 3)
+    games = paginator.get_page(page)
+    return render(request, 'games/game_list.html', {'games': games, 'search': search, 'page': page})
 
 def game_detail(request, id):
     game = get_object_or_404(Game, id=id)
