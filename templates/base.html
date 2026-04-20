@@ -10,10 +10,10 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- NAVBAR-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'games:game_list' %}">🎮 Game Shop</a>
+        <a class="navbar-brand" href="{% url 'games:game_list' %}">🎮 Game Shop</a>z
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,6 +29,23 @@
                     <a class="nav-link" href="{% url 'games:game_create' %}">Add Game</a>
                 </li>
             </ul>
+            {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}" tabindex="-1">Logout</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}" tabindex="-1">Profile</a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" tabindex="-1">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}" tabindex="-1">Register</a>
+                    </li>
+                {% endif %}
             <form class="d-flex" method="get" action="{% url 'games:game_list' %}">
                 <input class="form-control me-2" type="search" placeholder="Search games..." name="search" value="{{ search }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -43,48 +60,6 @@
 </div>
 
 
-<nav aria-label="page">
-  <ul class="pagination">
-<!--      preveus-->
-    {% if games.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?search={{ search }}&page={{ games.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
-        </li>
-    {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-        </li>
-    {% endif %}
-
-<!--    {% for game in games %}-->
-<!--        {% if games.number == game.number%}-->
-<!--            <li class="page-item active"><a class="page-link" href="?search={{ search }}&page={{ game.number }}">{{ game.number }}</a></li>-->
-<!--        {% else %}-->
-<!--            <li class="page-item disabled"><a class="page-link" href="?search={{ search }}&page={{ game.number }}">{{ game.number }}</a></li>-->
-<!--        {% endif %}-->
-<!--    {% endfor %}-->
-
-
-    {% for game in games.paginator %}
-        {% if games.number == game %}
-            <li class="page-item active">
-                <a class="page-link" href="?search={{ search }}&page={{ game.number }}">{{ game.number }}</a>
-            </li>
-        {% else %}
-            <li class="page-item">
-                <a class="page-link" href="?search={{ search }}&page={{ game.number }}">{{ game.number }}</a>
-            </li>
-        {% endif %}
-    {% endfor %}
-
-
-    {% if games.has_next %}
-        <li class="page-item"><a class="page-link" href="?search={{ search }}&page={{ games.next_page_number }}">Next</a></li>
-    {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-    {% endif %}
-  </ul>
-</nav>
 
 
 <footer class="footer">

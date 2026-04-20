@@ -70,9 +70,17 @@
         🌍 Open via Ngrok
     </a>
 
-    <a href="http://127.0.0.1:8000/games" class="btn local">
+    <a href="http://127.0.0.1:8000/games/game_list" class="btn local">
         💻 Open Locally
     </a>
+
+    <a href="http://127.0.0.1:8000/products/" class="btn local">
+        💻 Open Locally
+    </a>
+    <a href="{% url 'games:game_list' %}" class="btn local">
+        💻 Open Locally Game_list
+    </a>
+
 </div>
 
 </body>
